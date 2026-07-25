@@ -59,7 +59,11 @@ test("project filtering is progressive enhancement only", () => {
 
 test("404 page is local and helpful", () => {
   assert.match(notFound, /Page not found/);
-  assert.match(notFound, /href="\.\/"/);
+  assert.match(notFound, /href="\/porqpine-studio-portfolio\/"/);
+  assert.match(
+    notFound,
+    /href="\/porqpine-studio-portfolio\/styles\.css"/,
+  );
   assert.doesNotMatch(notFound, /https?:\/\/[^"']+\.(?:js|css|woff|png|jpg)/i);
 });
 
