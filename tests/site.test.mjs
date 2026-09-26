@@ -9,6 +9,8 @@ const styles = await readFile(new URL("docs/styles.css", root), "utf8");
 const script = await readFile(new URL("docs/script.js", root), "utf8");
 const robots = await readFile(new URL("docs/robots.txt", root), "utf8");
 const sitemap = await readFile(new URL("docs/sitemap.xml", root), "utf8");
+const books = await readFile(new URL("docs/books/index.html", root), "utf8");
+const favicon = await readFile(new URL("docs/assets/savoth-mark.svg", root), "utf8");
 
 test("portfolio has a semantic, indexable homepage", () => {
   assert.match(index, /<main id="main-content">/);
@@ -19,19 +21,19 @@ test("portfolio has a semantic, indexable homepage", () => {
   assert.doesNotMatch(index, /<form\b|<iframe\b|google-analytics|gtag\(/i);
 });
 
-test("all three public projects and platform checkouts are linked", () => {
+test("all three public projects have canonical source and Savoth contact links", () => {
   for (const repository of [
-    "porqpine-landing-page-lab",
-    "porqpine-reel-brief",
-    "porqpine-agent-workbench",
+    "savoth-landing-page-lab",
+    "savoth-reel-brief",
+    "savoth-agent-workbench",
   ]) {
     assert.match(index, new RegExp(`github\\.com/opethician/${repository}`));
   }
 
-  assert.match(index, /freelancer\.com\/service\/website_testing/);
-  assert.match(index, /freelancer\.com\/service\/video_editing/);
-  assert.match(index, /freelancer\.com\/service\/ai_chatbot_development/);
-  assert.match(index, /freelancer\.com\/u\/AyushiOpethician/);
+  assert.equal((index.match(/aria-label="Contact Savoth about /g) ?? []).length, 3);
+  assert.doesNotMatch(index, /freelancer\.com\/service\//i);
+  assert.doesNotMatch(index, /freelancer\.com\/u\/(?:Savoth|AyushiOpethician)/i);
+  assert.match(index, /href="books\/"[^>]*>Books</);
 });
 
 test("copy avoids unsupported portfolio claims", () => {
@@ -40,7 +42,16 @@ test("copy avoids unsupported portfolio claims", () => {
     /award-winning|trusted by|clients served|conversion rate|guaranteed results|five-star service/i,
   );
   assert.match(index, /0<\/strong><span>invented client or outcome claims/);
-  assert.match(index, /No off-platform payment is requested/);
+  assert.match(index, /No payment is requested on this site/);
+  assert.doesNotMatch(index, /platform checkout|Matching checkout path/i);
+});
+
+test("all pages use the Savoth favicon", () => {
+  assert.match(index, /href="assets\/savoth-mark\.svg"/);
+  assert.match(books, /href="\.\.\/assets\/savoth-mark\.svg"/);
+  assert.match(notFound, /href="\/savoth-studio-portfolio\/assets\/savoth-mark\.svg"/);
+  assert.match(favicon, />Sv<\/text>/);
+  assert.doesNotMatch(index, /class="boundary-mark"[^>]*>pQ</);
 });
 
 test("responsive and reduced-motion rules are present", () => {
@@ -59,18 +70,31 @@ test("project filtering is progressive enhancement only", () => {
 
 test("404 page is local and helpful", () => {
   assert.match(notFound, /Page not found/);
-  assert.match(notFound, /href="\/porqpine-studio-portfolio\/"/);
+  assert.match(notFound, /href="\/savoth-studio-portfolio\/"/);
   assert.match(
     notFound,
-    /href="\/porqpine-studio-portfolio\/styles\.css"/,
+    /href="\/savoth-studio-portfolio\/styles\.css"/,
   );
   assert.doesNotMatch(notFound, /https?:\/\/[^"']+\.(?:js|css|woff|png|jpg)/i);
 });
 
 test("main/docs is ready for branch-based GitHub Pages", () => {
   const productionUrl =
-    "https://opethician.github.io/porqpine-studio-portfolio/";
+    "https://opethician.github.io/savoth-studio-portfolio/";
   assert.match(index, new RegExp(productionUrl.replaceAll(".", "\\.")));
-  assert.match(robots, /porqpine-studio-portfolio\/sitemap\.xml/);
+  assert.match(robots, /savoth-studio-portfolio\/sitemap\.xml/);
   assert.match(sitemap, new RegExp(productionUrl.replaceAll(".", "\\.")));
+});
+
+test("books release preserves the exact catalog with substitute title cards", () => {
+  assert.equal((books.match(/class="book-card"/g) ?? []).length, 19);
+  assert.equal((books.match(/class="edition-link"/g) ?? []).length, 38);
+  assert.equal((books.match(/class="regional-storefronts-links"/g) ?? []).length, 3);
+  assert.equal((books.match(/-metadata-card\.webp/g) ?? []).length, 19);
+  assert.equal((books.match(/Substitute catalog title card<\/figcaption>/g) ?? []).length, 19);
+  assert.match(books, /name="robots" content="index,follow"/);
+  assert.match(books, /savoth-studio-portfolio\/books\//);
+  assert.match(sitemap, /savoth-studio-portfolio\/books\//);
+  assert.doesNotMatch(books, /media\/|video-lane|book-slides|noindex,nofollow/);
+  assert.doesNotMatch(books, /freelancer\.com\/u\/Savoth|AyushiOpethician/);
 });

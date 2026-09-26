@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://opethician.github.io/porqpine-studio-portfolio/sitemap.xml
+Sitemap: https://opethician.github.io/savoth-studio-portfolio/sitemap.xml

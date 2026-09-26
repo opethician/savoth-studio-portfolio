@@ -724,6 +724,14 @@ h3 {
     grid-template-columns: 1fr;
   }
 
+  .boundaries {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .boundaries > * {
+    min-width: 0;
+  }
+
   .final-cta {
     gap: 28px;
     padding: 76px 20px;
