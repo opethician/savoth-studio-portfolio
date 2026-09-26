@@ -44,7 +44,7 @@ npm test
 GitHub Pages publishes directly from `main/docs`. The repository contains no
 deployment token, build-time secret, or third-party hosting dependency.
 
-Proposed public URL (staging branch has not been pushed or deployed):
+Public URL:
 
 `https://opethician.github.io/savoth-studio-portfolio/`
 
