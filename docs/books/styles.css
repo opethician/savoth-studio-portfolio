@@ -743,6 +743,16 @@ h3 {
   color: var(--ink);
 }
 
+.book-title a {
+  text-decoration-color: var(--sage);
+  text-underline-offset: 3px;
+}
+
+.book-title a:hover,
+.book-title a:focus-visible {
+  text-decoration-color: currentColor;
+}
+
 .book-subtitle {
   font-size: 13px;
   color: var(--ink-soft);

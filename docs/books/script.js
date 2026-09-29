@@ -9,6 +9,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const previous = document.querySelector(".prev-btn");
   const next = document.querySelector(".next-btn");
 
+  cards.forEach(card => {
+    const heading = card.querySelector(".book-title");
+    const link = document.createElement("a");
+    link.href = `#${card.id}`;
+    link.textContent = heading.textContent;
+    link.setAttribute("aria-label", `Link to ${heading.textContent.trim()} in the book catalog`);
+    heading.replaceChildren(link);
+  });
+
+  function showLinkedBook() {
+    const target = cards.find(card => `#${card.id}` === window.location.hash);
+    if (!target) return;
+    if (target.hidden) filters.find(button => button.dataset.categoryFilter === "all")?.click();
+    requestAnimationFrame(() => target.scrollIntoView({ block: "nearest", inline: "start" }));
+  }
+
+  window.addEventListener("hashchange", showLinkedBook);
+  showLinkedBook();
+
   function step() {
     const first = cards.find(card => !card.hidden);
     const gap = Number.parseFloat(getComputedStyle(track).columnGap) || 0;
@@ -27,6 +46,9 @@ document.addEventListener("DOMContentLoaded", () => {
         card.hidden = category !== "all" && card.dataset.category !== category;
         if (!card.hidden) count += 1;
       });
+      if (cards.some(card => `#${card.id}` === window.location.hash && card.hidden)) {
+        history.replaceState(null, "", window.location.pathname + window.location.search);
+      }
       track.scrollLeft = 0;
       const subject = category === "all" ? "" : ` in ${button.textContent.trim().toLowerCase()}`;
       status.textContent = `Showing ${count} ${count === 1 ? "title" : "titles"}${subject}.`;
