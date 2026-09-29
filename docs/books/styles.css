@@ -801,6 +801,10 @@ h3 {
   border-top: 1px solid var(--line);
 }
 
+.book-editions-section--review {
+  margin-top: 12px;
+}
+
 .editions-label {
   display: block;
   font: 800 10px/1 "Courier New", monospace;
@@ -808,6 +812,16 @@ h3 {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 8px;
+}
+
+.book-editorial-note {
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 .editions-grid {

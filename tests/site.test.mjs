@@ -88,7 +88,9 @@ test("main/docs is ready for branch-based GitHub Pages", () => {
 
 test("books release preserves the exact catalog with substitute title cards", () => {
   assert.equal((books.match(/class="book-card"/g) ?? []).length, 19);
-  assert.equal((books.match(/class="edition-link"/g) ?? []).length, 40);
+  assert.equal((books.match(/class="edition-link"/g) ?? []).length, 37);
+  assert.match(books, /This title is under editorial review\. Its edition links are temporarily unavailable here\./);
+  assert.doesNotMatch(books, /https:\/\/www\.amazon\.com\/dp\/(?:B0HH96CKG5|B0HGGZDMN6|B0HGHGWF9W)/);
   assert.equal((books.match(/class="regional-storefronts-links"/g) ?? []).length, 3);
   assert.equal((books.match(/-metadata-card\.webp/g) ?? []).length, 19);
   assert.equal((books.match(/Substitute catalog title card<\/figcaption>/g) ?? []).length, 19);
