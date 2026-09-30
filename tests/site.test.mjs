@@ -89,25 +89,22 @@ test("main/docs is ready for branch-based GitHub Pages", () => {
 
 test("books release preserves catalog cards and held purchase links", () => {
   assert.equal((books.match(/class="book-card"/g) ?? []).length, 19);
-  assert.equal((books.match(/class="edition-link"/g) ?? []).length, 36);
+  assert.equal((books.match(/class="edition-link"/g) ?? []).length, 37);
   assert.match(books, /This title is under editorial review\. Its edition links are temporarily unavailable here\./);
   assert.doesNotMatch(books, /https:\/\/www\.amazon\.com\/dp\/(?:B0HH96CKG5|B0HGGZDMN6|B0HGHGWF9W)/);
-  for (const id of ["BOOK-5", "BOOK-16"]) {
+  for (const id of ["BOOK-5"]) {
     const card = books.match(new RegExp(`<article[^>]+id="${id}"[^>]*>[\\s\\S]*?<\\/article>`))?.[0];
     assert.ok(card, `${id} card must remain in the catalog`);
     assert.doesNotMatch(card, /class="edition-link"|https:\/\/www\.amazon\.com\/dp\//);
     assert.doesNotMatch(card, /view Amazon for the current cover|View Amazon for the current cover and edition details/i);
     assert.match(card, /book-editions-section--review/);
-    if (id !== "BOOK-5") {
-      assert.match(card, /Edition update in progress\. Purchase links will return after review\./);
-    }
   }
-  assert.doesNotMatch(books, /https:\/\/www\.amazon\.com\/dp\/(?:B0HHY1DFLV|B0HHY8TTRZ|B0HL4MQ697)/);
+  assert.doesNotMatch(books, /https:\/\/www\.amazon\.com\/dp\/(?:B0HHY1DFLV|B0HHY8TTRZ)/);
   assert.equal((books.match(/class="regional-storefronts-links"/g) ?? []).length, 3);
-  assert.equal((books.match(/-metadata-card\.webp/g) ?? []).length, 18);
-  assert.equal((books.match(/Substitute catalog title card<\/figcaption>/g) ?? []).length, 18);
-  assert.equal((books.match(/Kindle cover<\/figcaption>/g) ?? []).length, 1);
-  assert.match(books, /The other 18 books use substitute catalog title cards\./);
+  assert.equal((books.match(/-metadata-card\.webp/g) ?? []).length, 17);
+  assert.equal((books.match(/Substitute catalog title card<\/figcaption>/g) ?? []).length, 17);
+  assert.equal((books.match(/Kindle cover<\/figcaption>/g) ?? []).length, 2);
+  assert.match(books, /The other 17 books use substitute catalog title cards\./);
   assert.doesNotMatch(books, /Each book has a substitute catalog title card\.|TITLE CARDS ARE CATALOG SUBSTITUTES/);
   assert.match(books, /name="robots" content="index,follow"/);
   assert.match(books, /savoth-studio-portfolio\/books\//);
@@ -130,5 +127,24 @@ test("BOOK15 links only its approved Kindle edition and exact free worksheet", a
   const worksheet = await readFile(new URL("docs/books/resources/BOOK15-WEEKLY-PROJECT-STATUS-REVIEW-WORKSHEET.pdf", root));
   assert.equal(createHash("sha256").update(cover).digest("hex"), "483874a57889c1dc2b80dd7df2d3a31b7e32cfc585b88d6b1273b199e6594e67");
   assert.equal(createHash("sha256").update(worksheet).digest("hex"), "f48146ec72aba1209492af0f4a74c90649218aab2f14d3bd098b12e894001d8f");
+  assert.equal(worksheet.subarray(0, 5).toString("ascii"), "%PDF-");
+});
+
+test("BOOK16 links only its approved Kindle edition and exact free worksheet", async () => {
+  const card = books.match(/<article[^>]+id="BOOK-16"[^>]*>[\s\S]*?<\/article>/)?.[0];
+  assert.ok(card, "BOOK16 card must remain in the catalog");
+  assert.equal((card.match(/class="edition-link"/g) ?? []).length, 1);
+  assert.match(card, /href="https:\/\/www\.amazon\.com\/dp\/B0HL4MQ697"/);
+  assert.match(card, /View Kindle on Amazon/);
+  assert.doesNotMatch(card, /Paperback|book-editions-section--review|Edition update in progress/);
+  assert.match(card, /The One-Person YouTube Studio/);
+  assert.match(card, /by porQpine/);
+  assert.match(card, /src="covers\/book-16-kindle-cover\.jpg"[^>]*width="1600" height="2560"/);
+  assert.match(card, /href="resources\/BOOK16-SOLO-VIDEO-PUBLISHING-REVIEW-WORKSHEET\.pdf"/);
+  assert.match(card, /Free publishing review worksheet \(PDF\)/);
+  const cover = await readFile(new URL("docs/books/covers/book-16-kindle-cover.jpg", root));
+  const worksheet = await readFile(new URL("docs/books/resources/BOOK16-SOLO-VIDEO-PUBLISHING-REVIEW-WORKSHEET.pdf", root));
+  assert.equal(createHash("sha256").update(cover).digest("hex"), "9d20b7381a480565e578dd56125649abbf5130b39ad405e746fb7398a563af2c");
+  assert.equal(createHash("sha256").update(worksheet).digest("hex"), "738da889307205a22e4b0c99c3db364158396c6791d16c69af2c963cad96c3c5");
   assert.equal(worksheet.subarray(0, 5).toString("ascii"), "%PDF-");
 });
