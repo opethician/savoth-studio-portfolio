@@ -88,9 +88,20 @@ test("main/docs is ready for branch-based GitHub Pages", () => {
 
 test("books release preserves the exact catalog with substitute title cards", () => {
   assert.equal((books.match(/class="book-card"/g) ?? []).length, 19);
-  assert.equal((books.match(/class="edition-link"/g) ?? []).length, 37);
+  assert.equal((books.match(/class="edition-link"/g) ?? []).length, 35);
   assert.match(books, /This title is under editorial review\. Its edition links are temporarily unavailable here\./);
   assert.doesNotMatch(books, /https:\/\/www\.amazon\.com\/dp\/(?:B0HH96CKG5|B0HGGZDMN6|B0HGHGWF9W)/);
+  for (const id of ["BOOK-5", "BOOK-15", "BOOK-16"]) {
+    const card = books.match(new RegExp(`<article[^>]+id="${id}"[^>]*>[\\s\\S]*?<\\/article>`))?.[0];
+    assert.ok(card, `${id} card must remain in the catalog`);
+    assert.doesNotMatch(card, /class="edition-link"|https:\/\/www\.amazon\.com\/dp\//);
+    assert.doesNotMatch(card, /view Amazon for the current cover|View Amazon for the current cover and edition details/i);
+    assert.match(card, /book-editions-section--review/);
+    if (id !== "BOOK-5") {
+      assert.match(card, /Edition update in progress\. Purchase links will return after review\./);
+    }
+  }
+  assert.doesNotMatch(books, /https:\/\/www\.amazon\.com\/dp\/(?:B0HHY1DFLV|B0HL1VW2D9|B0HHY8TTRZ|B0HL4MQ697)/);
   assert.equal((books.match(/class="regional-storefronts-links"/g) ?? []).length, 3);
   assert.equal((books.match(/-metadata-card\.webp/g) ?? []).length, 19);
   assert.equal((books.match(/Substitute catalog title card<\/figcaption>/g) ?? []).length, 19);
