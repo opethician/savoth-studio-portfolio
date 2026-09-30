@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
@@ -86,12 +87,12 @@ test("main/docs is ready for branch-based GitHub Pages", () => {
   assert.match(sitemap, new RegExp(productionUrl.replaceAll(".", "\\.")));
 });
 
-test("books release preserves the exact catalog with substitute title cards", () => {
+test("books release preserves catalog cards and held purchase links", () => {
   assert.equal((books.match(/class="book-card"/g) ?? []).length, 19);
-  assert.equal((books.match(/class="edition-link"/g) ?? []).length, 35);
+  assert.equal((books.match(/class="edition-link"/g) ?? []).length, 36);
   assert.match(books, /This title is under editorial review\. Its edition links are temporarily unavailable here\./);
   assert.doesNotMatch(books, /https:\/\/www\.amazon\.com\/dp\/(?:B0HH96CKG5|B0HGGZDMN6|B0HGHGWF9W)/);
-  for (const id of ["BOOK-5", "BOOK-15", "BOOK-16"]) {
+  for (const id of ["BOOK-5", "BOOK-16"]) {
     const card = books.match(new RegExp(`<article[^>]+id="${id}"[^>]*>[\\s\\S]*?<\\/article>`))?.[0];
     assert.ok(card, `${id} card must remain in the catalog`);
     assert.doesNotMatch(card, /class="edition-link"|https:\/\/www\.amazon\.com\/dp\//);
@@ -101,13 +102,33 @@ test("books release preserves the exact catalog with substitute title cards", ()
       assert.match(card, /Edition update in progress\. Purchase links will return after review\./);
     }
   }
-  assert.doesNotMatch(books, /https:\/\/www\.amazon\.com\/dp\/(?:B0HHY1DFLV|B0HL1VW2D9|B0HHY8TTRZ|B0HL4MQ697)/);
+  assert.doesNotMatch(books, /https:\/\/www\.amazon\.com\/dp\/(?:B0HHY1DFLV|B0HHY8TTRZ|B0HL4MQ697)/);
   assert.equal((books.match(/class="regional-storefronts-links"/g) ?? []).length, 3);
-  assert.equal((books.match(/-metadata-card\.webp/g) ?? []).length, 19);
-  assert.equal((books.match(/Substitute catalog title card<\/figcaption>/g) ?? []).length, 19);
+  assert.equal((books.match(/-metadata-card\.webp/g) ?? []).length, 18);
+  assert.equal((books.match(/Substitute catalog title card<\/figcaption>/g) ?? []).length, 18);
+  assert.equal((books.match(/Kindle cover<\/figcaption>/g) ?? []).length, 1);
+  assert.match(books, /The other 18 books use substitute catalog title cards\./);
+  assert.doesNotMatch(books, /Each book has a substitute catalog title card\.|TITLE CARDS ARE CATALOG SUBSTITUTES/);
   assert.match(books, /name="robots" content="index,follow"/);
   assert.match(books, /savoth-studio-portfolio\/books\//);
   assert.match(sitemap, /savoth-studio-portfolio\/books\//);
   assert.doesNotMatch(books, /media\/|video-lane|book-slides|noindex,nofollow/);
   assert.doesNotMatch(books, /freelancer\.com\/u\/Savoth|AyushiOpethician/);
+});
+
+test("BOOK15 links only its approved Kindle edition and exact free worksheet", async () => {
+  const card = books.match(/<article[^>]+id="BOOK-15"[^>]*>[\s\S]*?<\/article>/)?.[0];
+  assert.ok(card, "BOOK15 card must remain in the catalog");
+  assert.equal((card.match(/class="edition-link"/g) ?? []).length, 1);
+  assert.match(card, /href="https:\/\/www\.amazon\.com\/dp\/B0HL1VW2D9"/);
+  assert.match(card, /View Kindle on Amazon/);
+  assert.doesNotMatch(card, /Paperback|book-editions-section--review|Edition update in progress/);
+  assert.match(card, /src="covers\/book-15-kindle-cover\.jpg"[^>]*width="1600" height="2560"/);
+  assert.match(card, /href="resources\/BOOK15-WEEKLY-PROJECT-STATUS-REVIEW-WORKSHEET\.pdf"/);
+  assert.match(card, /Free status review worksheet \(PDF\)/);
+  const cover = await readFile(new URL("docs/books/covers/book-15-kindle-cover.jpg", root));
+  const worksheet = await readFile(new URL("docs/books/resources/BOOK15-WEEKLY-PROJECT-STATUS-REVIEW-WORKSHEET.pdf", root));
+  assert.equal(createHash("sha256").update(cover).digest("hex"), "483874a57889c1dc2b80dd7df2d3a31b7e32cfc585b88d6b1273b199e6594e67");
+  assert.equal(createHash("sha256").update(worksheet).digest("hex"), "f48146ec72aba1209492af0f4a74c90649218aab2f14d3bd098b12e894001d8f");
+  assert.equal(worksheet.subarray(0, 5).toString("ascii"), "%PDF-");
 });
