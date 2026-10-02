@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The PM's AI Status Report — Practical Workflows | Savoth</title>
+  <meta name="description" content="Delivery, Risk, and Stakeholder Workflows Without the Busywork. Read the book on Kindle or download the free weekly status review worksheet.">
+  <style>
+    :root {
+      --bg-main: #0f172a;
+      --bg-surface: #1e293b;
+      --bg-card: #182234;
+      --bg-accent: #0f2e2b;
+      --border-subtle: #334155;
+      --border-focus: #059669;
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --accent-green: #10b981;
+      --accent-green-hover: #059669;
+      --accent-light: #d1fae5;
+      --accent-tag: #064e3b;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-serif: "Georgia", "Cambria", "Times New Roman", serif;
+      --font-mono: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-padding-top: 5rem;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      padding: 0;
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    /* Accessibility Skip Link */
+    .skip-link {
+      position: absolute;
+      top: -60px;
+      left: 1rem;
+      background: var(--accent-green);
+      color: #042f2e;
+      padding: 0.5rem 1rem;
+      z-index: 1000;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 0 0 4px 4px;
+      transition: top 0.2s ease-in-out;
+    }
+    .skip-link:focus, .skip-link:focus-visible {
+      top: 0;
+      outline: 2px solid var(--accent-light);
+    }
+
+    /* Container */
+    .container {
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    /* Header */
+    header {
+      border-bottom: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.95);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 1.125rem;
+      letter-spacing: -0.02em;
+      flex-shrink: 0;
+    }
+    .brand-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: var(--bg-surface);
+      color: var(--accent-green);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid var(--border-subtle);
+    }
+    .nav-links {
+      display: flex;
+      gap: 0.875rem;
+      align-items: center;
+    }
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a:focus-visible {
+      color: var(--accent-green);
+    }
+    @media (max-width: 480px) {
+      .nav-links {
+        gap: 0.625rem;
+      }
+      .nav-links a {
+        font-size: 0.8125rem;
+      }
+    }
+
+    /* Hero */
+    .hero {
+      padding: 1.25rem 0 1.5rem;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+    @media (min-width: 640px) {
+      .hero-grid {
+        grid-template-columns: 180px 1fr;
+        gap: 1.75rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .hero-grid {
+        grid-template-columns: 240px 1fr;
+        gap: 2.25rem;
+      }
+    }
+
+    .cover-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .cover-wrapper {
+      width: 100%;
+      max-width: 170px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+    }
+    @media (min-width: 640px) {
+      .cover-wrapper {
+        max-width: 220px;
+      }
+    }
+    .cover-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      aspect-ratio: 1600 / 2560;
+      object-fit: cover;
+    }
+    .cover-caption {
+      margin-top: 0.4rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .info-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+    }
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+    }
+    .badge-green {
+      background-color: var(--accent-tag);
+      color: var(--accent-light);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .badge-neutral {
+      background-color: var(--bg-surface);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-subtle);
+    }
+
+    h1.book-title {
+      font-size: 1.375rem;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+      color: var(--text-primary);
+    }
+    @media (min-width: 640px) {
+      h1.book-title {
+        font-size: 1.75rem;
+      }
+    }
+
+    .book-subtitle {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+    @media (min-width: 640px) {
+      .book-subtitle {
+        font-size: 0.9375rem;
+      }
+    }
+
+    .byline-row {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+    .byline-row strong {
+      color: var(--text-primary);
+    }
+
+    .lead-text {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      border-left: 3px solid var(--accent-green);
+      padding-left: 0.75rem;
+      margin: 0.125rem 0;
+    }
+    @media (min-width: 640px) {
+      .lead-text {
+        font-size: 0.9375rem;
+      }
+    }
+
+    /* Actions */
+    .cta-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 0.375rem;
+    }
+    @media (min-width: 480px) {
+      .cta-stack {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.625rem 1.125rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.15s ease-in-out;
+      cursor: pointer;
+      text-align: center;
+      min-height: 42px;
+    }
+    .btn-primary {
+      background-color: var(--accent-green);
+      color: #042f2e;
+    }
+    .btn-primary:hover, .btn-primary:focus-visible {
+      background-color: #34d399;
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      background-color: var(--bg-surface);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+    }
+    .btn-secondary:hover, .btn-secondary:focus-visible {
+      background-color: #28364b;
+      border-color: var(--text-secondary);
+    }
+
+    .cta-meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: -0.125rem;
+    }
+
+    /* Section Cards */
+    .section-card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin: 1.25rem 0;
+      scroll-margin-top: 5.5rem;
+    }
+    @media (min-width: 640px) {
+      .section-card {
+        padding: 1.75rem;
+      }
+    }
+
+    .section-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    @media (min-width: 640px) {
+      .section-title {
+        font-size: 1.25rem;
+      }
+    }
+    .section-title .icon {
+      color: var(--accent-green);
+    }
+
+    /* Worksheet Tool Highlight */
+    .worksheet-highlight {
+      background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-accent) 100%);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .worksheet-steps {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+    @media (min-width: 640px) {
+      .worksheet-steps {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    .step-item {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(51, 65, 85, 0.7);
+      border-radius: 6px;
+      padding: 0.75rem 0.875rem;
+    }
+    .step-num {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.2rem;
+    }
+    .step-name {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.2rem;
+    }
+    .step-desc {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .worksheet-cta-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.875rem;
+      margin-top: 1rem;
+    }
+    .worksheet-meta-text {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+    }
+    @media (max-width: 480px) {
+      .worksheet-cta-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .worksheet-cta-bar .btn {
+        width: 100%;
+      }
+    }
+
+    /* Worked Example */
+    .source-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent-green);
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      margin-bottom: 0.75rem;
+    }
+    .fictional-case-banner {
+      background: rgba(15, 23, 42, 0.7);
+      border-left: 3px solid #f59e0b;
+      padding: 0.75rem 1rem;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 1rem;
+    }
+    .fictional-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #fbbf24;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+    .fictional-desc {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.875rem;
+      margin: 0.875rem 0;
+    }
+    @media (min-width: 640px) {
+      .comparison-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .comp-box {
+      border-radius: 6px;
+      padding: 0.875rem;
+      font-size: 0.875rem;
+    }
+    .comp-box.raw {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid #475569;
+    }
+    .comp-box.clean {
+      background: rgba(6, 78, 59, 0.25);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+    .comp-header {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+    .comp-box.raw .comp-header {
+      color: #94a3b8;
+    }
+    .comp-box.clean .comp-header {
+      color: var(--accent-green);
+    }
+    .comp-content {
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+    }
+
+    /* Reading Excerpt */
+    .excerpt-box {
+      background: var(--bg-card);
+      border-left: 3px solid var(--accent-green);
+      padding: 1.125rem;
+      border-radius: 0 6px 6px 0;
+      margin: 0.875rem 0;
+    }
+    .excerpt-text {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      line-height: 1.65;
+      color: #e2e8f0;
+      font-style: italic;
+    }
+    .excerpt-text p + p {
+      margin-top: 0.75rem;
+    }
+    .excerpt-citation {
+      margin-top: 0.75rem;
+      font-family: var(--font-sans);
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      font-style: normal;
+    }
+
+    /* Specifications Table */
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      margin-top: 0.75rem;
+    }
+    .specs-table th, .specs-table td {
+      padding: 0.625rem 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .specs-table th {
+      color: var(--text-secondary);
+      font-weight: 600;
+      width: 35%;
+    }
+    .specs-table td {
+      color: var(--text-primary);
+    }
+
+    /* Disclosure box */
+    .disclosure-note {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 0.875rem 1rem;
+      margin-top: 1rem;
+    }
+    .disclosure-note strong {
+      color: var(--text-secondary);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 1.75rem 0;
+      margin-top: 2.5rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      align-items: center;
+      text-align: center;
+    }
+    @media (min-width: 640px) {
+      .footer-content {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+      }
+    }
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      margin-left: 1rem;
+    }
+    .footer-links a:hover, .footer-links a:focus-visible {
+      color: var(--accent-green);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Accessibility Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header / Navigation -->
+  <header>
+    <div class="container nav-inner">
+      <a href="https://opethician.github.io/savoth-studio-portfolio/books/" class="brand">
+        Savoth <span class="brand-tag">Publishing</span>
+      </a>
+      <nav class="nav-links" aria-label="Main Navigation">
+        <a href="#worksheet">Worksheet</a>
+        <a href="#excerpt">Excerpt</a>
+        <a href="#specs">Kindle</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content" class="container">
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-grid">
+        
+        <!-- Left: Cover Art Column -->
+        <div class="cover-col">
+          <div class="cover-wrapper">
+            <img 
+              src="assets/book-15-kindle-cover.jpg" 
+              alt="Book cover: The PM's AI Status Report showing brass compass navigation on a nautical chart" 
+              class="cover-img"
+              width="240"
+              height="384"
+            >
+          </div>
+          <p class="cover-caption">Kindle Edition • ASIN B0HL1VW2D9</p>
+        </div>
+
+        <!-- Right: Metadata & Value Proposition Column -->
+        <div class="info-col">
+          <div class="badge-row">
+            <span class="badge badge-green">Kindle Edition</span>
+            <span class="badge badge-neutral">Amazon.com: $2.99 USD</span>
+          </div>
+
+          <h1 class="book-title">The PM's AI Status Report</h1>
+          <p class="book-subtitle">Delivery, Risk, and Stakeholder Workflows Without the Busywork</p>
+          
+          <div class="byline-row">
+            By <strong>porQpine</strong> (Savoth Publishing)
+          </div>
+
+          <p class="lead-text">
+            Stop treating weekly reporting as a Friday afternoon creative writing exercise. Learn structured workflows to turn raw Jira tickets and meeting notes into crisp, scannable executive summaries—while keeping human verification and decision control firmly in your hands.
+          </p>
+
+          <div class="cta-stack">
+            <a href="https://www.amazon.com/dp/B0HL1VW2D9" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+              Read on Amazon Kindle ($2.99)
+            </a>
+            <a href="assets/BOOK15-WEEKLY-PROJECT-STATUS-REVIEW-WORKSHEET.pdf" class="btn btn-secondary" download>
+              Download Free Worksheet (PDF)
+            </a>
+          </div>
+          <p class="cta-meta">Instant delivery on Kindle app & devices. 1-page review worksheet free with no signup.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Free Worksheet Section -->
+    <section id="worksheet" class="section-card worksheet-highlight">
+      <h2 class="section-title">
+        <span class="icon">📄</span> 1-Page Weekly Project Status Review Worksheet
+      </h2>
+      <p style="color: var(--text-secondary); font-size: 0.9375rem;">
+        Before asking AI to draft an update, record four foundational anchors: the fact, the supporting reference, the owner, and the next deadline. Use this companion printable worksheet to audit drafts before sending.
+      </p>
+
+      <div class="worksheet-steps">
+        <div class="step-item">
+          <div class="step-num">Step 1</div>
+          <div class="step-name">Facts and Evidence</div>
+          <div class="step-desc">List verified ticket updates, test notes, and date/owner records before generating prose.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">Step 2</div>
+          <div class="step-name">Progress, Risk and Action</div>
+          <div class="step-desc">Document what changed, active blockers, risk mitigation, and explicit due dates.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">Step 3</div>
+          <div class="step-name">AI Draft Review</div>
+          <div class="step-desc">Verify generated claims and dates against raw notes; flag uncertain facts for follow-up.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">Step 4</div>
+          <div class="step-name">Review Decision</div>
+          <div class="step-desc">Choose <strong>Send</strong>, <strong>Revise</strong>, or <strong>Hold</strong> based on factual accuracy.</div>
+        </div>
+      </div>
+
+      <div class="worksheet-cta-bar">
+        <span class="worksheet-meta-text">Direct download • PDF format • No email required</span>
+        <a href="assets/BOOK15-WEEKLY-PROJECT-STATUS-REVIEW-WORKSHEET.pdf" class="btn btn-primary" download>
+          Download PDF (3.6 KB)
+        </a>
+      </div>
+    </section>
+
+    <!-- Concrete Worked Example Section -->
+    <section id="worked-example" class="section-card">
+      <div class="source-tag">Chapter 3 · Status Reports That Write Themselves</div>
+      
+      <div class="fictional-case-banner">
+        <span class="fictional-badge">[FICTIONAL WORKED EXAMPLE]</span>
+        <p class="fictional-desc">
+          This fictional scenario uses invented people, project records, and results to demonstrate the workflow. It is not an actual client case study or a measured outcome.
+        </p>
+      </div>
+
+      <h2 class="section-title">Worked Example: The Jargon-Free Translation Workflow</h2>
+      <p style="color: var(--text-secondary); font-size: 0.9375rem; margin-bottom: 0.75rem;">
+        In Chapter 3, product manager Mei-Ling Tan demonstrates structuring prompt constraints to translate technical sprint review notes into scannable stakeholder updates.
+      </p>
+
+      <div class="comparison-grid">
+        <div class="comp-box raw">
+          <div class="comp-header">Raw Engineering Ticket Input</div>
+          <div class="comp-content">
+            "Refactored the authentication token logic to reduce latency on API calls by 40ms."
+          </div>
+        </div>
+        <div class="comp-box clean">
+          <div class="comp-header">Structured Stakeholder Output (After Negative Constraints)</div>
+          <div class="comp-content">
+            "- <strong>Faster Logins:</strong> We upgraded the login system. Users will now experience significantly faster load times when signing in, addressing the main friction point raised by enterprise pilot customers."
+          </div>
+        </div>
+      </div>
+
+      <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border-subtle); border-radius: 6px; padding: 1rem; margin-top: 1rem;">
+        <h3 style="font-size: 0.875rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">
+          The BLUF Architecture (Bottom Line Up Front)
+        </h3>
+        <p style="font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.5;">
+          The book establishes a three-part structure for executive readability:
+        </p>
+        <ul style="font-size: 0.8125rem; color: var(--text-secondary); margin-left: 1.25rem; margin-top: 0.35rem; line-height: 1.5;">
+          <li><strong>1. Executive Summary (BLUF):</strong> 3 bullets maximum: RAG status, primary blocker, and target resolution date.</li>
+          <li><strong>2. Impact Zone:</strong> Decisions or actions specifically required from stakeholders.</li>
+          <li><strong>3. Data Trail:</strong> Supporting ticket links and references for readers who wish to inspect evidence.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Reading Excerpt Section -->
+    <section id="excerpt" class="section-card">
+      <div class="source-tag">Introduction · The Honest Promise</div>
+      <h2 class="section-title">Reading Excerpt: The Honest Promise</h2>
+      
+      <div class="excerpt-box">
+        <div class="excerpt-text">
+          <p>
+            "Project managers often face a reporting burden alongside delivery work. A workflow can organize project notes into a draft, but it cannot make decisions, verify facts, or manage the people involved.
+          </p>
+          <p>
+            There is no magic robot that can do the job. The useful aim is a workflow that makes reporting easier to review and correct."
+          </p>
+        </div>
+        <div class="excerpt-citation">
+          — From <em>The PM's AI Status Report</em>, Introduction (Savoth Publishing)
+        </div>
+      </div>
+    </section>
+
+    <!-- Specifications & Integrity Section -->
+    <section id="specs" class="section-card">
+      <h2 class="section-title">Edition Details and Transparency</h2>
+      
+      <table class="specs-table">
+        <tbody>
+          <tr>
+            <th>Full Title</th>
+            <td>The PM's AI Status Report: Delivery, Risk, and Stakeholder Workflows Without the Busywork: For Project Managers Tired of Reporting About Work Instead of Doing It</td>
+          </tr>
+          <tr>
+            <th>Format</th>
+            <td>Kindle Edition (eBook) — Instant Delivery</td>
+          </tr>
+          <tr>
+            <th>ASIN</th>
+            <td><code>B0HL1VW2D9</code></td>
+          </tr>
+          <tr>
+            <th>Author / Pen Name</th>
+            <td>porQpine</td>
+          </tr>
+          <tr>
+            <th>Publishing Brand</th>
+            <td>Savoth</td>
+          </tr>
+          <tr>
+            <th>Observed List Price</th>
+            <td>$2.99 USD (Amazon.com; check destination for current marketplace pricing)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="disclosure-note">
+        <strong>Content & Methodology Disclosure:</strong> The text and cover illustration of this book were generated using AI. Editorial corrections were made for this edition. Characters (Aisha Rahman, Tom Fitzgerald, and Mei-Ling Tan) are fictional people; project records, dates, sample figures, and results in their stories are invented to demonstrate workflows and are not actual client case studies or measured outcomes.
+      </div>
+    </section>
+
+    <!-- Final Call to Action -->
+    <section style="text-align: center; padding: 2rem 0 1rem;">
+      <h2 style="font-size: 1.375rem; font-weight: 700; margin-bottom: 0.5rem;">Ready to streamline your weekly reporting?</h2>
+      <p style="color: var(--text-secondary); max-width: 540px; margin: 0 auto 1.25rem; font-size: 0.9375rem;">
+        Get instant access to the complete workflow guide on Kindle or start with the free review worksheet.
+      </p>
+      <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+        <a href="https://www.amazon.com/dp/B0HL1VW2D9" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+          Get Kindle Edition ($2.99)
+        </a>
+        <a href="assets/BOOK15-WEEKLY-PROJECT-STATUS-REVIEW-WORKSHEET.pdf" class="btn btn-secondary" download>
+          Download Free Worksheet (PDF)
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div>
+        © 2026 Savoth / porQpine. All rights reserved.
+      </div>
+      <div class="footer-links">
+        <a href="https://opethician.github.io/savoth-studio-portfolio/books/">Savoth Catalog (19 Books)</a>
+        <a href="https://www.youtube.com/@SavothWorkflows" target="_blank" rel="noopener noreferrer">YouTube Channel</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
