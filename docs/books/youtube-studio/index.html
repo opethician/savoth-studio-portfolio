@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The One-Person YouTube Studio — Practical Creator Workflows | Savoth</title>
+  <meta name="description" content="The One-Person YouTube Studio: AI Workflows for Scripting, Repurposing, and Publishing on a Schedule: Grow a Channel Without a Team, an Editor, or a Burnout. Read on Kindle or download the free companion review worksheet.">
+  <style>
+    :root {
+      --bg-main: #0f172a;
+      --bg-surface: #1e293b;
+      --bg-card: #182234;
+      --bg-accent: #0f2e2b;
+      --border-subtle: #334155;
+      --border-focus: #059669;
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --accent-green: #10b981;
+      --accent-green-hover: #059669;
+      --accent-light: #d1fae5;
+      --accent-tag: #064e3b;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-serif: "Georgia", "Cambria", "Times New Roman", serif;
+      --font-mono: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-padding-top: 5rem;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      padding: 0;
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    /* Accessibility Skip Link */
+    .skip-link {
+      position: absolute;
+      top: -60px;
+      left: 1rem;
+      background: var(--accent-green);
+      color: #042f2e;
+      padding: 0.5rem 1rem;
+      z-index: 1000;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 0 0 4px 4px;
+      transition: top 0.2s ease-in-out;
+    }
+    .skip-link:focus, .skip-link:focus-visible {
+      top: 0;
+      outline: 2px solid var(--accent-light);
+    }
+
+    /* Container */
+    .container {
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    /* Header */
+    header {
+      border-bottom: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.95);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      flex-wrap: wrap;
+      row-gap: 0.375rem;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 1.125rem;
+      letter-spacing: -0.02em;
+      flex-shrink: 0;
+    }
+    .brand-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: var(--bg-surface);
+      color: var(--accent-green);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid var(--border-subtle);
+    }
+    .nav-links {
+      display: flex;
+      gap: 0.875rem;
+      align-items: center;
+    }
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a:focus-visible {
+      color: var(--accent-green);
+    }
+    @media (max-width: 480px) {
+      .nav-inner {
+        padding: 0.5rem 0;
+        row-gap: 0.375rem;
+      }
+      .brand {
+        font-size: 1rem;
+      }
+      .brand-tag {
+        font-size: 0.6875rem;
+        padding: 0.15rem 0.375rem;
+      }
+      .nav-links {
+        width: 100%;
+        justify-content: space-between;
+        gap: 0.5rem;
+      }
+      .nav-links a {
+        font-size: 0.8125rem;
+      }
+    }
+
+    /* Hero */
+    .hero {
+      padding: 1.25rem 0 1.5rem;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+    @media (min-width: 640px) {
+      .hero-grid {
+        grid-template-columns: 180px 1fr;
+        gap: 1.75rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .hero-grid {
+        grid-template-columns: 240px 1fr;
+        gap: 2.25rem;
+      }
+    }
+
+    .cover-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .cover-wrapper {
+      width: 100%;
+      max-width: 170px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+    }
+    @media (min-width: 640px) {
+      .cover-wrapper {
+        max-width: 220px;
+      }
+    }
+    .cover-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      aspect-ratio: 1600 / 2560;
+      object-fit: cover;
+    }
+    .cover-caption {
+      margin-top: 0.4rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .info-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+    }
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+    }
+    .badge-green {
+      background-color: var(--accent-tag);
+      color: var(--accent-light);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .badge-neutral {
+      background-color: var(--bg-surface);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-subtle);
+    }
+
+    h1.book-title {
+      font-size: 1.375rem;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+      color: var(--text-primary);
+    }
+    @media (min-width: 640px) {
+      h1.book-title {
+        font-size: 1.75rem;
+      }
+    }
+
+    .book-subtitle {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+    @media (min-width: 640px) {
+      .book-subtitle {
+        font-size: 0.9375rem;
+      }
+    }
+
+    .byline-row {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+    .byline-row strong {
+      color: var(--text-primary);
+    }
+
+    .lead-text {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      border-left: 3px solid var(--accent-green);
+      padding-left: 0.75rem;
+      margin: 0.125rem 0;
+    }
+    @media (min-width: 640px) {
+      .lead-text {
+        font-size: 0.9375rem;
+      }
+    }
+
+    /* Actions */
+    .cta-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 0.375rem;
+    }
+    @media (min-width: 480px) {
+      .cta-stack {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.625rem 1.125rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.15s ease-in-out;
+      cursor: pointer;
+      text-align: center;
+      min-height: 42px;
+    }
+    .btn-primary {
+      background-color: var(--accent-green);
+      color: #042f2e;
+    }
+    .btn-primary:hover, .btn-primary:focus-visible {
+      background-color: #34d399;
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      background-color: var(--bg-surface);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+    }
+    .btn-secondary:hover, .btn-secondary:focus-visible {
+      background-color: #28364b;
+      border-color: var(--text-secondary);
+    }
+
+    .cta-meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: -0.125rem;
+    }
+
+    /* Section Cards */
+    .section-card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin: 1.25rem 0;
+      scroll-margin-top: 5.5rem;
+    }
+    @media (min-width: 640px) {
+      .section-card {
+        padding: 1.75rem;
+      }
+    }
+
+    .section-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    @media (min-width: 640px) {
+      .section-title {
+        font-size: 1.25rem;
+      }
+    }
+    .section-title .icon {
+      color: var(--accent-green);
+    }
+
+    /* Worksheet Tool Highlight */
+    .worksheet-highlight {
+      background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-accent) 100%);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .worksheet-steps {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+    @media (min-width: 640px) {
+      .worksheet-steps {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (min-width: 768px) {
+      .worksheet-steps {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    .step-item {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(51, 65, 85, 0.7);
+      border-radius: 6px;
+      padding: 0.75rem 0.875rem;
+    }
+    .step-num {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.2rem;
+    }
+    .step-name {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.2rem;
+    }
+    .step-desc {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .worksheet-cta-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+      align-items: flex-start;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(51, 65, 85, 0.7);
+    }
+    @media (min-width: 640px) {
+      .worksheet-cta-bar {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    /* Excerpt and Fictional Box */
+    .excerpt-box {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 1rem;
+      margin: 0.75rem 0;
+      font-family: var(--font-serif);
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .fictional-notice {
+      background-color: rgba(30, 41, 59, 0.7);
+      border-left: 3px solid var(--border-subtle);
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      font-family: var(--font-sans);
+    }
+
+    /* Metadata Table */
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+    @media (min-width: 480px) {
+      .meta-grid {
+        grid-template-columns: 140px 1fr;
+      }
+    }
+    .meta-label {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .meta-value {
+      font-size: 0.8125rem;
+      color: var(--text-primary);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 2rem 0;
+      margin-top: 2rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    @media (min-width: 640px) {
+      .footer-content {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+    .footer-links {
+      display: flex;
+      gap: 1rem;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .footer-links a:hover {
+      color: var(--accent-green);
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header>
+    <div class="container nav-inner">
+      <a href="../" class="brand" aria-label="Savoth Studio Home">
+        <span>Savoth</span>
+        <span class="brand-tag">Creator Workflows</span>
+      </a>
+      <nav class="nav-links" aria-label="Quick links">
+        <a href="#overview">Overview</a>
+        <a href="#worksheet">Worksheet</a>
+        <a href="#excerpt">Excerpt</a>
+        <a href="#metadata">Details</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" class="container">
+    <!-- Hero Section -->
+    <section class="hero" id="overview" aria-labelledby="book-title-heading">
+      <div class="hero-grid">
+        <div class="cover-col">
+          <div class="cover-wrapper">
+            <img 
+              src="book-16-kindle-cover.jpg" 
+              alt="Cover of The One-Person YouTube Studio: AI Workflows for Scripting, Repurposing, and Publishing on a Schedule: Grow a Channel Without a Team, an Editor, or a Burnout by porQpine" 
+              class="cover-img"
+              width="1600"
+              height="2560"
+              loading="eager"
+            >
+          </div>
+          <p class="cover-caption">Kindle Edition Cover</p>
+        </div>
+
+        <div class="info-col">
+          <div class="badge-row">
+            <span class="badge badge-green">Kindle Edition Live</span>
+            <span class="badge badge-neutral">Independent Publishing</span>
+          </div>
+
+          <h1 class="book-title" id="book-title-heading">The One-Person YouTube Studio</h1>
+          <p class="book-subtitle">AI Workflows for Scripting, Repurposing, and Publishing on a Schedule: Grow a Channel Without a Team, an Editor, or a Burnout</p>
+          
+          <div class="byline-row">
+            By <strong>porQpine</strong> · Published by <strong>Savoth</strong> · Verified Kindle ASIN: <strong>B0HL4MQ697</strong>
+          </div>
+
+          <p class="lead-text">
+            A practical guide to organizing research, scripting, editing, and release tasks around the time a solo creator actually has available—keeping creative decisions and output checks firmly in human hands.
+          </p>
+
+          <div class="cta-stack">
+            <a 
+              href="https://www.amazon.com/dp/B0HL4MQ697" 
+              class="btn btn-primary"
+              target="_blank" 
+              rel="noopener noreferrer"
+              aria-label="Read The One-Person YouTube Studio on Amazon Kindle (observed list price $2.99 USD)"
+            >
+              <span>Read on Amazon Kindle ↗</span>
+            </a>
+            <a 
+              href="#worksheet" 
+              class="btn btn-secondary"
+            >
+              <span>Get Free Review Worksheet ↓</span>
+            </a>
+          </div>
+          <p class="cta-meta">
+            Observed list price $2.99 USD on Amazon.com. Check destination for current format, marketplace pricing, and reading sample. Paperback edition B0HHY8TTRZ is currently held.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Worksheet Tool Section -->
+    <section class="section-card worksheet-highlight" id="worksheet" aria-labelledby="worksheet-heading">
+      <h2 class="section-title" id="worksheet-heading">
+        <span class="icon">📋</span> Companion Tool: Solo Video Publishing Review Worksheet
+      </h2>
+      <p style="color: var(--text-secondary); font-size: 0.9375rem;">
+        Before scheduling or publishing a video, test your draft against a structured 6-part editorial check. We prepared a free, 1-page printable review worksheet (an independently produced original companion) to help solo creators catch inaccuracies, asset permissions, and disclosure requirements before release:
+      </p>
+
+      <div class="worksheet-steps">
+        <div class="step-item">
+          <div class="step-num">Step 1</div>
+          <div class="step-name">Idea and Viewer</div>
+          <div class="step-desc">Document the core video idea, intended viewer, and original source of the concept.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">Step 2</div>
+          <div class="step-name">Sources &amp; Permissions</div>
+          <div class="step-desc">Verify claims, track factual source links, and confirm required asset licenses.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">Step 3</div>
+          <div class="step-name">Title &amp; Thumbnail Test</div>
+          <div class="step-desc">Evaluate title options and test thumbnail legibility at small mobile display sizes.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">Step 4</div>
+          <div class="step-name">Assets &amp; Synthetic Media</div>
+          <div class="step-desc">Note AI-altered or generated audio/visual elements and platform disclosure context.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">Step 5</div>
+          <div class="step-name">Approval &amp; Calendar</div>
+          <div class="step-desc">Record the final file version, planned publication date, and release checklist.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">Step 6</div>
+          <div class="step-name">Measurement &amp; Iteration</div>
+          <div class="step-desc">Schedule a post-release check date to log retention observations and plan the next test.</div>
+        </div>
+      </div>
+
+      <div class="worksheet-cta-bar">
+        <div>
+          <strong style="color: var(--text-primary); font-size: 0.9375rem;">Download the 1-Page PDF Worksheet</strong>
+          <p style="color: var(--text-muted); font-size: 0.8125rem;">Free direct PDF download · No email registration or sign-up required · Printable A4 format (595 × 842 pt)</p>
+        </div>
+        <a 
+          href="BOOK16-SOLO-VIDEO-PUBLISHING-REVIEW-WORKSHEET.pdf" 
+          class="btn btn-primary"
+          download="BOOK16-SOLO-VIDEO-PUBLISHING-REVIEW-WORKSHEET.pdf"
+          aria-label="Download the free Solo Video Publishing Review Worksheet PDF"
+        >
+          <span>Download Free Worksheet (PDF) ↓</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Source Excerpt Section -->
+    <section class="section-card" id="excerpt" aria-labelledby="excerpt-heading">
+      <h2 class="section-title" id="excerpt-heading">
+        <span class="icon">📖</span> Introduction: The Blank Timeline
+      </h2>
+      <p style="color: var(--text-secondary); font-size: 0.875rem;">
+        An excerpt from the approved, live Kindle edition introduction:
+      </p>
+
+      <blockquote class="excerpt-box">
+        "We will test how to organize a one-person production process and where AI tools may help. Use them to explore options, prepare drafts, and organize repetitive tasks while retaining responsibility for creative decisions and output checks. The amount and quality of work you can produce will depend on your material, tools, available time, and review process."
+      </blockquote>
+
+      <div class="fictional-notice">
+        <strong>Fictional Worked Scenario (from Companion Worksheet):</strong>
+        <p style="margin-top: 0.25rem;">
+          <em>Plan: a short video about sorting a desk drawer. The sample script says 'four sections.' The creator still needs to check that line against the footage, record asset permissions and choose a publication date.</em>
+          <br>
+          (Note: This scenario is an explicitly fictional exercise from the companion worksheet used to illustrate review steps. It is not an actual client case study, does not reflect real channel outcomes, and does not claim timed rework savings.)
+        </p>
+      </div>
+    </section>
+
+    <!-- Metadata & Disclosure Section -->
+    <section class="section-card" id="metadata" aria-labelledby="metadata-heading">
+      <h2 class="section-title" id="metadata-heading">
+        <span class="icon">ℹ️</span> Publication Details &amp; AI Transparency Note
+      </h2>
+      <p style="color: var(--text-secondary); font-size: 0.875rem;">
+        Complete edition metadata and production transparency:
+      </p>
+
+      <div class="meta-grid">
+        <div class="meta-label">Full Title:</div>
+        <div class="meta-value">The One-Person YouTube Studio: AI Workflows for Scripting, Repurposing, and Publishing on a Schedule: Grow a Channel Without a Team, an Editor, or a Burnout</div>
+
+        <div class="meta-label">Subtitle:</div>
+        <div class="meta-value">AI Workflows for Scripting, Repurposing, and Publishing on a Schedule: Grow a Channel Without a Team, an Editor, or a Burnout</div>
+
+        <div class="meta-label">Author Byline:</div>
+        <div class="meta-value">porQpine</div>
+
+        <div class="meta-label">Publisher:</div>
+        <div class="meta-value">Published by Savoth</div>
+
+        <div class="meta-label">Kindle ASIN:</div>
+        <div class="meta-value">B0HL4MQ697 (Verified LIVE on Amazon.com)</div>
+
+        <div class="meta-label">Paperback Status:</div>
+        <div class="meta-value">B0HHY8TTRZ (Held; print edition currently unlinked)</div>
+
+        <div class="meta-label">Content Length:</div>
+        <div class="meta-value">16 sections · 50,886 chapter words · 19 table-of-contents entries</div>
+
+        <div class="meta-label">AI Production Note:</div>
+        <div class="meta-value" style="font-size: 0.75rem; color: var(--text-secondary);">
+          Generated Google Jules draft throughout with substantial revision, generated retained Google Antigravity cover, current OpenAI Codex editorial corrections, fictional creator examples, and no independent professional validation. Verified on copyright page 4 of the live edition.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-content">
+      <div>
+        <p>&copy; 2026 Savoth. All rights reserved.</p>
+        <p style="margin-top: 0.25rem;">Independent practical workflows for solo professionals and creators.</p>
+      </div>
+      <div class="footer-links">
+        <a href="../">Savoth Studio Portfolio</a>
+        <a href="../#BOOK-16">Catalog Entry</a>
+        <a href="https://www.amazon.com/dp/B0HL4MQ697" target="_blank" rel="noopener noreferrer">Amazon Listing ↗</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
